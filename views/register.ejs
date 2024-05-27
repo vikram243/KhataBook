@@ -1,0 +1,23 @@
+<%- include('./partials/header.ejs') %>
+    <div class="logincontainer w-full h-[80%] flex items-center justify-center">
+        <div class="loginpanel bg-white p-8 rounded-lg shadow-md w-96">
+            <h1 class="text-2xl font-semibold mb-4">Create Account</h1>
+            <form method="post" action="/createAccount">
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="name" name="username" placeholder="Enter your username" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Create</button>
+            </form>
+            <a class="mt-5 inline-block text-blue-500" href="/">Have an account, login here.</a>
+        </div>
+    </div>
+<%- include('./partials/footer.ejs') %>
