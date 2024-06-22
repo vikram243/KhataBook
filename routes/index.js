@@ -2,38 +2,35 @@ const express = require("express");
 const router = express.Router();
 const usersModel = require("../models/users-model");
 const bcrypt = require("bcrypt");
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const { isLoggedIn, redirectIfLogin} = require("../middlewares/login-middleware");
 
-router.get("/", function (req, res) {
-  res.render("index");
+router.get("/", redirectIfLogin, function (req, res) {
+  res.render("index", { loggedin: false });
 });
 
-function isLoggedIn(req, res, next) {
-  if(req.cookies.token) {
-    let token = req.cookies.token;
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-      if(err) {
-        res.send(err.message);
-      } else {
-        req.user = decoded;
-        next();
-      }
-    });
-  } else {
-    res.redirect("/");
-  }
-};
-
-router.get("/register", function (req, res) {
-  res.render("register");
+router.get("/register", redirectIfLogin, function (req, res) {
+  res.render("register", { loggedin: false });
 });
 
-router.get("/profile", isLoggedIn, function (req, res) {
-  res.send("This is a profile");
+router.get("/profile", isLoggedIn, async function (req, res) {
+  let byDate = Number(req.query.byDate);
+  let { startDate, endDate } = req.query;
+
+  byDate = byDate ? byDate : -1;
+  startDate = startDate ? startDate : new Date("2000-01-01");
+  endDate = endDate ? endDate : new Date();
+
+  let user = await usersModel.findOne({ email: req.user.email }).populate({
+    path: "hisaab",
+    match: { createdAt: { $gte: startDate, $lte: endDate } },
+    options: { sort: { createdAt: byDate } },
+  });
+
+  res.render("profile", { user });
 });
 
-router.post("/createAccount", async function (req, res) {
+router.post("/createAccount", redirectIfLogin, async function (req, res) {
   let {username, password, email} = req.body;
 
   try {
@@ -49,7 +46,7 @@ router.post("/createAccount", async function (req, res) {
         });
         let token = jwt.sign({email, userid: newUser._id}, process.env.JWT_SECRET);
         res.cookie("token", token);
-        res.redirect('/Profile');
+        res.redirect('/profile');
       });
     });
   } catch (error) {
@@ -58,17 +55,17 @@ router.post("/createAccount", async function (req, res) {
 });
 
 router.post("/login", async function (req, res) {
-  let {username, password, email} = req.body;
+  let {password, email} = req.body;
 
   try {
-    let user = await usersModel.findOne({email});
+    let user = await usersModel.findOne({email}).select("+password");
     if(!user) return res.status(500).send("Email or password is incorrect");
 
     bcrypt.compare(password, user.password, function (err, result) {
       if(result) {
         let token = jwt.sign({email, userid: user._id}, process.env.JWT_SECRET);
         res.cookie("token", token);
-        res.redirect('/Profile');
+        res.redirect('/profile');
       } else {
         res.status(500).send("Email or password is incorrect");
       }

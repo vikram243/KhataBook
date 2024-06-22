@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const config = require("config");
 const dbgr = require("debug")("development:mongoose");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/khaatabook")
+  .connect(`${config.get("MONGODB_URL")}/khaatabook`)
   .then(function () {
     dbgr("connected to Mongo");
   })
@@ -13,3 +14,4 @@ mongoose
 let db = mongoose.connection;
 
 module.exports = db;
+

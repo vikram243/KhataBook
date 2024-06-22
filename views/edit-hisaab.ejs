@@ -1,0 +1,50 @@
+<%- include('./partials/header.ejs') %>
+    <div class="flex justify-center mt-10">
+        <div class="w-full max-w-md bg-white rounded shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-8">Create New Hisaab</h2>
+            <form method="post" action="/hisaab/<%= hisaabid %>/update">
+                <div class="flex flex-col mb-4">
+                    <label for="hisaab-name" class="text- font-medium mb-1">Title</label>
+                    <input name="title" type="text" id="hisaab-name" autocomplete="off" class="w-full pl-2 py-2 text-sm border border-gray-300 rounded" value="<%= hisaab.title %>">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label for="description" class="text- font-medium mb-1">Description</label>
+                    <textarea name="description" type="text" id="description" autocomplete="off" class="resize-none w-full pl-2 py-2 text-sm border border-gray-300 rounded" value=""><%= hisaab.description %></textarea>
+                </div>
+                <div class="flex justify-between mb-8">
+                    <div class="flex items-center">
+                        <input name="encrypted" type="checkbox" id="encrypt-file" class="encrypt mr-2">
+                        <label for="encrypt-file" class="encrypt text-sm">Encrypt this file</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input name="shareable" type="checkbox" id="shareable-file" class="mr-2">
+                        <label for="shareable-file" class="text-sm">Shareable file?</label>
+                    </div>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <div class="flex mb-4">
+                        <label for="passcode" class="font-medium mt-1 mr-2">Passcode:</label>
+                        <input name="passcode" type="number" id="passcode" autocomplete="off" class="hidden pass w-2/4 pl-2 py-2 text-sm border border-gray-300 rounded" value="<%= hisaab.passcode %>">
+                    </div>
+                    <div class="flex items-center">
+                        <input name="editpermissions" type="checkbox" id="edit-permissions" class="mr-2">
+                        <label for="edit-permissions" class="text-sm">Edit permissions</label>
+                    </div>
+                </div>
+                <button class="bg-blue-500 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded">Update Hisaab</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector(".encrypt")
+            .addEventListener("click", function (event) {
+                if (document.querySelector(".pass").classList.contains("hidden")) {
+                    document.querySelector(".pass").classList.remove("hidden");
+                }
+                else {
+                    document.querySelector(".pass").classList.add("hidden");
+                }
+            })
+    </script>
+<%- include('./partials/footer.ejs') %>

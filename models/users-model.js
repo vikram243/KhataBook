@@ -8,10 +8,6 @@ const userSchema = mongoose.Schema({
     maxLength: 30,
     required: true,
   },
-  name: {
-    type: String,
-    trim: true,
-  },
   profilepicture: {
     type: String,
     trim: true,
@@ -24,11 +20,9 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
-    // select: false
+    select: false
   },
-  hisaab: {
-    type: Array,
-  },
+  hisaab: [{ type: mongoose.Schema.Types.ObjectId, ref: "Hisaab" }]
 });
 
 const User = mongoose.model("users-model", userSchema);
