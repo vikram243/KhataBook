@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 require("./config/mongoose-connection");
 require("dotenv").config();
-// const flash = require("connect-flash");
+const flash = require("connect-flash");
 const expressSession = require("express-session");
 
 
@@ -27,6 +27,7 @@ app.use(
     secret: process.env.EXPRESS_SESSION_SECRET,
   })
 );
+app.use(flash());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

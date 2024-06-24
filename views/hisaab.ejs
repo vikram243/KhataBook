@@ -9,7 +9,9 @@
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Khaata</h1>
             <div class="flex space-x-4">
+                <% if(hisaab.encrypted){ %>
                 <div class="bg-blue-500 text-white px-4 py-2 rounded">Encrypted</div>
+                <% } %>
                 <% if(hisaab.shareable){ %>
                 <button class="sharebtn text-gray-700 px-4 py-2 rounded flex items-center space-x-2">
                     <span>Share as a link</span>
@@ -31,8 +33,11 @@
     <script>
         var timer;
         const sharebtn = document.querySelector(".sharebtn");
-        sharebtn.addEventListener("click", function (e) {
+        sharebtn.addEventListener("click", (event) => {
             clearTimeout(timer);
+
+            let url = document.location.href;
+            navigator.clipboard.writeText(url)
 
             document.querySelector(".copieddiv")
                 .classList.remove("hidden");

@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const usersModel = require("../models/users-model");
+require("joi");
+const userJoiSchema = require("../models/users-validation");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const { isLoggedIn, redirectIfLogin} = require("../middlewares/login-middleware");
 
 router.get("/", redirectIfLogin, function (req, res) {
-  res.render("index", { loggedin: false });
+  let err = req.flash("error");
+  res.render("index", { loggedin: false, error: err});
 });
 
 router.get("/register", redirectIfLogin, function (req, res) {
-  res.render("register", { loggedin: false });
+  let err = req.flash("error");
+  res.render("register", { loggedin: false, error: err  });
 });
 
 router.get("/profile", isLoggedIn, async function (req, res) {
@@ -33,9 +37,17 @@ router.get("/profile", isLoggedIn, async function (req, res) {
 router.post("/createAccount", redirectIfLogin, async function (req, res) {
   let {username, password, email} = req.body;
 
-  try {
+  const { error } = userJoiSchema.validate(req.body);
+  if (error) {
+    let err = error.details[0].message;
+    req.flash("error", err);
+    return res.redirect("/register");
+  }else{
     let user = await usersModel.findOne({email});
-    if(user) return res.send("Sorry, you already have an account, please login.");
+    if(user) {
+      req.flash("error", "Sorry you already have account, please login.");
+      return res.redirect("/register");
+    }
 
     bcrypt.genSalt(15, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
@@ -49,8 +61,6 @@ router.post("/createAccount", redirectIfLogin, async function (req, res) {
         res.redirect('/profile');
       });
     });
-  } catch (error) {
-    res.send(error.message);
   }
 });
 
@@ -59,7 +69,10 @@ router.post("/login", async function (req, res) {
 
   try {
     let user = await usersModel.findOne({email}).select("+password");
-    if(!user) return res.status(500).send("Email or password is incorrect");
+    if(!user){
+      req.flash("error", "Email or password is incorrect");
+      return res.redirect("/");
+    }
 
     bcrypt.compare(password, user.password, function (err, result) {
       if(result) {
@@ -67,7 +80,8 @@ router.post("/login", async function (req, res) {
         res.cookie("token", token);
         res.redirect('/profile');
       } else {
-        res.status(500).send("Email or password is incorrect");
+        req.flash("error", "Email or password is incorrect");
+        return res.redirect("/");
       }
     });
   } catch (error) {
