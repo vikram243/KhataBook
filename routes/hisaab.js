@@ -3,7 +3,6 @@ const router = express.Router();
 const { isLoggedIn} = require("../middlewares/login-middleware");
 const { hisaabAccess, deleteAccess, editAccess } = require("../middlewares/access");
 const HisaabModel = require("../models/hisaab-model");
-const hisaabJoiSchema = require("../models/hisaab-validation");
 const UserModel = require("../models/users-model");
 
 router.get("/create", isLoggedIn, function (req, res) {
@@ -15,32 +14,30 @@ router.post("/create", isLoggedIn, async function (req, res) {
   let { title, description, encrypted, shareable, passcode, editpermissions } =
     req.body;
 
-    const { error } = hisaabJoiSchema.validate(req.body);
-    if (error) {
-      let err = error.details[0].message;
-      req.flash("error", err);
-      return res.redirect("/hisaab/create");
-    }
-    else{
+    try {
       encrypted = encrypted === "on" ? true : false;
       editpermissions = editpermissions === "on" ? true : false;
       shareable = shareable === "on" ? true : false;
   
-      let hisaab = await HisaabModel.create({
-        title: title,
-        description: description,
-        user: req.user.id,
-        encrypted: encrypted,
-        shareable: shareable,
-        passcode: passcode,
-        editpermissions: editpermissions,
-      });
-  
-      let user = await UserModel.findOne({ email: req.user.email });
-      user.hisaab.push(hisaab._id);
-      await user.save();
-  
-      res.redirect("/profile");
+        let hisaab = await HisaabModel.create({
+          title: title,
+          description: description,
+          user: req.user.userid,
+          encrypted: encrypted,
+          shareable: shareable,
+          passcode: passcode,
+          editpermissions: editpermissions,
+        });
+    
+        let user = await UserModel.findOne({ email: req.user.email });
+        user.hisaab.push(hisaab._id);
+        await user.save();
+    
+        res.redirect("/profile");
+    } catch (error) {
+      console.log(error.message);
+      req.flash("error", "Title and Description is not allowed to be empty");
+      return res.redirect("/hisaab/create");
     }
 });
 
@@ -54,7 +51,7 @@ router.get("/view/:id", isLoggedIn, async function (req, res) {
   if (hisaab.encrypted) {
     res.render("passcode", { hisaabid: req.params.id, error: err });
   } else {
-    res.render("hisaab", { hisaab });
+    res.render("hisaab", { hisaab, error: err });
   }
 });
 
@@ -83,9 +80,16 @@ router.get("/delete/:id", isLoggedIn, async function (req, res) {
 
   if (hisaab.encrypted) {
     res.render("delPasscode", { hisaabid: req.params.id, error: err  });
-  } else {
+  }
+
+  if(hisaab.user.toString() === req.user.userid){
     await HisaabModel.findOneAndDelete(hisaab);
     res.redirect("/profile");
+  }
+
+  else{
+    req.flash("error", "You are not authorized to delete this hisaab");
+    return res.redirect(`/hisaab/view/${req.params.id}`);
   }
 });
 
@@ -114,8 +118,13 @@ router.get("/edit/:id", isLoggedIn, async function (req, res) {
 
   if (hisaab.encrypted) {
     res.render("editPasscode", { hisaabid: req.params.id, error: err  });
-  } else {
+  }
+  if(hisaab.user.toString() === req.user.userid){
     res.render("edit-hisaab", { hisaabid: req.params.id, hisaab });
+  }
+  else{
+    req.flash("error", "You are not authorized to edit this hisaab");
+    return res.redirect(`/hisaab/view/${req.params.id}`);
   }
 });
 

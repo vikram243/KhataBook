@@ -22,7 +22,8 @@ const userSchema = mongoose.Schema({
     required: true,
     select: false
   },
-  hisaab: [{ type: mongoose.Schema.Types.ObjectId, ref: "Hisaab" }]
+  hisaab: [{ type: mongoose.Schema.Types.ObjectId, 
+    ref: "Hisaab" }]
 });
 
 const User = mongoose.model("users-model", userSchema);
