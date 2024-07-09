@@ -17,9 +17,11 @@
                     <span>Share as a link</span>
                 </button>
                 <% } %>
-                <a href="/hisaab/delete/<%= hisaab._id %>" class="bg-red-500 text-white px-4 py-2 rounded">Delete</a>
-                <% if(hisaab.editpermissions){ %>
-                <a href="/hisaab/edit/<%= hisaab._id %>" class="bg-yellow-400 text-white px-4 py-2 rounded">Edit</a>
+                <% if(hisaab.user.toString() === req.user.userid){ %> 
+                    <a href="/hisaab/delete/<%= hisaab._id %>" class="bg-red-500 text-white px-4 py-2 rounded">Delete</a>
+                    <% if(hisaab.editpermissions){ %>
+                    <a href="/hisaab/edit/<%= hisaab._id %>" class="bg-yellow-400 text-white px-4 py-2 rounded">Edit</a>
+                    <% } %>
                 <% } %>
             </div>
         </div>

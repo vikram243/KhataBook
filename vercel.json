@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "builds": [
+        {
+        "src": "./app. js",
+        "use": "Ďvercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/( .* )",
+            "dest": "/"
+        }
+    ]
+}

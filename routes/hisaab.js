@@ -51,7 +51,7 @@ router.get("/view/:id", isLoggedIn, async function (req, res) {
   if (hisaab.encrypted) {
     res.render("passcode", { hisaabid: req.params.id, error: err });
   } else {
-    res.render("hisaab", { hisaab, error: err });
+    res.render("hisaab", { hisaab, error: err, req });
   }
 });
 
@@ -68,7 +68,7 @@ router.post("/:id/verify", async function (req, res) {
 
 router.get("/:id", isLoggedIn, hisaabAccess, async function (req, res) {
   let hisaab = await HisaabModel.findOne({ _id: req.params.id });
-  res.render("hisaab", { hisaab });
+  res.render("hisaab", { hisaab, req });
 });
 
 router.get("/delete/:id", isLoggedIn, async function (req, res) {
@@ -86,7 +86,6 @@ router.get("/delete/:id", isLoggedIn, async function (req, res) {
     await HisaabModel.findOneAndDelete(hisaab);
     res.redirect("/profile");
   }
-
   else{
     req.flash("error", "You are not authorized to delete this hisaab");
     return res.redirect(`/hisaab/view/${req.params.id}`);
@@ -105,8 +104,15 @@ router.post("/:id/verifyDel", async function (req, res) {
 });
 
 router.get("/:id/delete", isLoggedIn, deleteAccess, async function (req, res) {
-  await HisaabModel.findOneAndDelete({ _id: req.params.id });
-  res.redirect("/profile")
+  let hisaab = await HisaabModel.findOne({ _id: req.params.id});
+  if(hisaab.user.toString() === req.user.userid){
+    await HisaabModel.findOneAndDelete(hisaab);
+    res.redirect("/profile");
+  }
+  else{
+    req.flash("error", "You are not authorized to delete this hisaab");
+    return res.redirect(`/hisaab/view/${req.params.id}`);
+  }
 });
 
 router.get("/edit/:id", isLoggedIn, async function (req, res) {
@@ -140,8 +146,14 @@ router.post("/:id/verifyEdit", async function (req, res) {
 });
 
 router.get("/:id/edit", isLoggedIn, editAccess, async function (req, res) {
-  let hisaab = await HisaabModel.findOne({ _id: req.params.id });
-  res.render("edit-hisaab", { hisaabid: req.params.id, hisaab });
+  let hisaab = await HisaabModel.findOne({ _id: req.params.id});
+  if(hisaab.user.toString() === req.user.userid){
+    res.render("edit-hisaab", { hisaabid: req.params.id, hisaab });
+  }
+  else{
+    req.flash("error", "You are not authorized to edit this hisaab");
+    return res.redirect(`/hisaab/view/${req.params.id}`);
+  }
 });
 
 router.post("/:id/update", isLoggedIn, async function (req, res) {
