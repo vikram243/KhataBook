@@ -80,12 +80,15 @@ router.get("/delete/:id", isLoggedIn, async function (req, res) {
 
   if (hisaab.encrypted) {
     res.render("delPasscode", { hisaabid: req.params.id, error: err  });
+    return;
   }
 
   if(hisaab.user.toString() === req.user.userid){
     await HisaabModel.findOneAndDelete(hisaab);
     res.redirect("/profile");
+    return;
   }
+
   else{
     req.flash("error", "You are not authorized to delete this hisaab");
     return res.redirect(`/hisaab/view/${req.params.id}`);
