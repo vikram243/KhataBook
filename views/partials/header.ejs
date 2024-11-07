@@ -13,16 +13,16 @@
 
 <body>
     <div class="navbar flex justify-between w-full px-20 py-10">
-        <h3 class="text-2xl font-bold"> Khaatabook <i class="ri-git-repository-line"></i></h3>
+        <h1 class="text-2xl font-bold"> Khaatabook <i class="ri-git-repository-line"></i></h1>
         <% var error=typeof error !=='undefined' ? error : "" %>
         <% if(error.length> 0){ %>
-                <h3 class="absolute top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-2 rounded-md text-red-600">
+                <h3 class="errMessage absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-2 rounded-md text-red-600">
                     <%= error %>
                 </h3>
         <% } %>
         <% var loggedin=typeof loggedin !=='undefined' ? loggedin : true %>
             <% if(loggedin){ %>
-                <div class="links flex gap-10">
+                <div class="links flex items-center gap-10">
                     <a href="/profile"><i class="ri-home-5-line"></i> Home </a>
                     <a href="/hisaab/create"><i class="ri-file-add-line"></i> Create new hisaab </a>
                     <a class="text-red-500" href="/logout"><i class="ri-logout-circle-r-line"></i> Logout </a>

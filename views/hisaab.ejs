@@ -1,26 +1,25 @@
 <%- include('./partials/header.ejs') %>
     <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg mt-10">
-        <div
-            class="absolute copieddiv hidden top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-2 rounded-md">
+        <div class="absolute copieddiv hidden top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-2 rounded-md">
             <h3 class="text-blue-500 text-xm">
                 link copied
             </h3>
         </div>
-        <div class="flex justify-between items-center mb-4 pb-2 border-b-2">
-            <h1 class="text-2xl font-bold">Khaata</h1>
-            <div class="flex space-x-4">
+        <div class="view flex justify-between items-center mb-4 pb-2 border-b-2">
+            <h1 class="text-xl font-bold">Khaata</h1>
+            <div class="featuresBtn flex gap-2 items-center">
                 <% if(hisaab.encrypted){ %>
-                <div class="bg-blue-500 text-white px-4 py-2 rounded">Encrypted</div>
+                <div class="btn bg-blue-500 text-white px-4 py-2 rounded">Encrypted</div>
                 <% } %>
                 <% if(hisaab.shareable){ %>
-                <button class="sharebtn text-gray-700 px-4 py-2 rounded flex items-center space-x-2">
+                <button class="btn sharebtn text-gray-700 px-4 py-2 rounded flex items-center">
                     <span>Share as a link</span>
                 </button>
                 <% } %>
                 <% if(hisaab.user.toString() === req.user.userid){ %> 
-                    <a href="/hisaab/delete/<%= hisaab._id %>" class="bg-red-500 text-white px-4 py-2 rounded">Delete</a>
+                    <a href="/hisaab/delete/<%= hisaab._id %>" class="btn bg-red-500 text-white px-4 py-2 rounded">Delete</a>
                     <% if(hisaab.editpermissions){ %>
-                    <a href="/hisaab/edit/<%= hisaab._id %>" class="bg-yellow-400 text-white px-4 py-2 rounded">Edit</a>
+                    <a href="/hisaab/edit/<%= hisaab._id %>" class="btn bg-yellow-400 text-white px-4 py-2 rounded">Edit</a>
                     <% } %>
                 <% } %>
             </div>
