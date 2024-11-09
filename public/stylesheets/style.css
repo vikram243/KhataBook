@@ -65,9 +65,8 @@ body {
 
 @media screen and (max-width: 500px) {
   .links {
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 5%;
-    gap: 3rem !important;
   }
 
   .navbar {
