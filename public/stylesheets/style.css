@@ -11,55 +11,73 @@ body {
   height: 100%;
 }
 
-@media screen and (max-width: 700px){
-  .head{
+@media screen and (max-width: 700px) {
+  .head {
     padding: 2.5rem 1.25rem !important;
   }
-  .navbar{
+
+  .navbar {
     padding: 2.5rem 1.25rem !important;
   }
-  .links{
+
+  .links {
     font-size: small;
     gap: 1.5rem !important;
   }
-  .hisaabDiv{
+
+  .hisaabDiv {
     padding: 1.5rem 1rem !important;
   }
-  .hisaabDiv .date{
+
+  .hisaabDiv .date {
     font-size: .5rem;
   }
-  .featuresBtn .btn{
+
+  .featuresBtn .btn {
     padding: .3rem .6rem !important;
   }
-  .featuresBtn .btn h3{
+
+  .featuresBtn .btn h3 {
     font-size: .8rem !important;
   }
-  .featuresBtn .btn i{
+
+  .featuresBtn .btn i {
     font-size: .8rem !important;
   }
-  .btn a{
+
+  .btn a {
     font-size: .6rem !important;
   }
-  .view h1{
+
+  .view h1 {
     display: none !important;
   }
-  .filter .btn{
+
+  .filter .btn {
     padding: .2rem .6rem !important;
   }
-  .hisaabDiv .card{
+
+  .hisaabDiv .card {
     min-width: 12rem !important;
     padding: .6rem;
   }
 }
 
-@media screen and (max-width: 500px){
-  .links{
-    display: none !important;
+@media screen and (max-width: 500px) {
+  .links {
+    justify-content: space-around;
+    margin-top: 5%;
+    gap: 3rem !important;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
-@media screen and (max-width: 1050px){
-  .hisaabDiv{
+@media screen and (max-width: 1050px) {
+  .hisaabDiv {
     flex-direction: column;
   }
 }

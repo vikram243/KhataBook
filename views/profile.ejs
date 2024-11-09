@@ -4,7 +4,8 @@
         <h5 class="text-xs opacity-50 mb-5">Your all hisaabs are here....</h5>
         <div>
             <form class="filter flex flex-wrap mb-10 gap-3" action="/profile" method="get">
-                <div class="btn px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md">
+                <div
+                    class="btn px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md">
                     Filters <i class="ri-sound-module-fill "></i></div>
                 <div id="bydate"
                     class="btn px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md">
@@ -31,7 +32,8 @@
                                     <h3 class="text-sm">Encrypted</h3>
                                 </div>
                                 <% } else { %>
-                                    <div class="btn px-3 py-2 rounded-md flex gap-2 items-center bg-teal-600 text-white">
+                                    <div
+                                        class="btn px-3 py-2 rounded-md flex gap-2 items-center bg-teal-600 text-white">
                                         <i class="text-xs ri-check-line"></i>
                                         <h3 class="text-sm">Available</h3>
                                     </div>
@@ -43,15 +45,16 @@
                                             </div>
                                             <% } %>
                         </div>
-                        <h3 class="date text-xs ml-2 relative text-zinc-400">Created on <%= hisaab.createdAt.getDate() %> - <%=
-                                    hisaab.createdAt.getMonth() %> - <%= hisaab.createdAt.getFullYear() %>
+                        <h3 class="date text-xs ml-2 relative text-zinc-400">Created on <%= hisaab.createdAt.getDate()
+                                %> - <%= hisaab.createdAt.getMonth() %> - <%= hisaab.createdAt.getFullYear() %>
                         </h3>
                     </div>
                     <div class="btn mt-3">
                         <h3 class="font-medium text-lg">
                             <%= hisaab.title %>
                         </h3>
-                        <a class="btn text-zinc-400 text-sm " href="/hisaab/view/<%= hisaab.id %>">View hisaab <i class="ri-eye-line"></i></a>
+                        <a class="btn text-zinc-400 text-sm " href="/hisaab/view/<%= hisaab.id %>">View hisaab <i
+                                class="ri-eye-line"></i></a>
                     </div>
                 </div>
                 <% }) %>
@@ -69,4 +72,4 @@
                 }
             })
     </script>
-<%- include('./partials/footer.ejs') %>
+    <%- include('./partials/footer.ejs') %>

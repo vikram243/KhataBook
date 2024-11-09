@@ -5,11 +5,14 @@
             <form method="post" action="/hisaab/<%= hisaabid %>/update">
                 <div class="flex flex-col mb-4">
                     <label for="hisaab-name" class="text- font-medium mb-1">Title</label>
-                    <input name="title" type="text" id="hisaab-name" autocomplete="off" class="w-full pl-2 py-2 text-sm border border-gray-300 rounded" value="<%= hisaab.title %>">
+                    <input name="title" type="text" id="hisaab-name" autocomplete="off"
+                        class="w-full pl-2 py-2 text-sm border border-gray-300 rounded" value="<%= hisaab.title %>">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label for="description" class="text- font-medium mb-1">Description</label>
-                    <textarea name="description" type="text" id="description" autocomplete="off" class="resize-none w-full pl-2 py-2 text-sm border border-gray-300 rounded" value=""><%= hisaab.description %></textarea>
+                    <textarea name="description" type="text" id="description" autocomplete="off"
+                        class="resize-none w-full pl-2 py-2 text-sm border border-gray-300 rounded"
+                        value=""><%= hisaab.description %></textarea>
                 </div>
                 <div class="flex justify-between mb-8">
                     <div class="flex items-center">
@@ -24,14 +27,17 @@
                 <div class="flex justify-between mb-4">
                     <div class="flex mb-4">
                         <label for="passcode" class="font-medium mt-1 mr-2">Passcode:</label>
-                        <input name="passcode" type="number" id="passcode" autocomplete="off" class="hidden pass w-2/4 pl-2 py-2 text-sm border border-gray-300 rounded" value="<%= hisaab.passcode %>">
+                        <input name="passcode" type="number" id="passcode" autocomplete="off"
+                            class="hidden pass w-2/4 pl-2 py-2 text-sm border border-gray-300 rounded"
+                            value="<%= hisaab.passcode %>">
                     </div>
                     <div class="flex items-center">
                         <input name="editpermissions" type="checkbox" id="edit-permissions" class="mr-2">
                         <label for="edit-permissions" class="text-sm">Edit permissions</label>
                     </div>
                 </div>
-                <button class="bg-blue-500 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded">Update Hisaab</button>
+                <button class="bg-blue-500 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded">Update
+                    Hisaab</button>
             </form>
         </div>
     </div>
@@ -47,4 +53,4 @@
                 }
             })
     </script>
-<%- include('./partials/footer.ejs') %>
+    <%- include('./partials/footer.ejs') %>
