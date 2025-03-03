@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const dbgr = require("debug")("development:mongoose");
+require('dotenv').config();
 mongoose
-  .connect(`${process.env.MONGODB_URL}/khaatabook`)
+  .connect(`${process.env.MONGODB_URL}`)
   .then(function () {
     dbgr("connected to Mongo");
   })
