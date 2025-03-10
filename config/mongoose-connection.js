@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
-const dbgr = require("debug")("development:mongoose");
-require('dotenv').config();
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(function () {
-    dbgr("connected to Mongo");
-  })
-  .catch(function (err) {
-    dbgr(err);
-  });
+const debug = require("debug")("development:mongoose");
+require("dotenv").config();
 
-let db = mongoose.connection;
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL, {
+    });
+    debug("Connected to MongoDB");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1); // Exit the process in case of a failure
+  }
+};
 
-module.exports = db;
-
+module.exports = connectDB;

@@ -1,27 +1,14 @@
-function hisaabAccess(req, res, next) {
-    if (req.session.hisaabaccess === req.params.id) {
-      next();
-    } else {
-      res.redirect(`/hisaab/view/${req.params.id}`);
+function accessControl(accessType, redirectPath) {
+  return (req, res, next) => {
+    if (req.session[accessType] === req.params.id) {
+      return next();
     }
-  }
-  
-  function deleteAccess(req, res, next) {
-    if (req.session.deleteaccess === req.params.id) {
-      next();
-    } else {
-      res.redirect(`/hisaab/delete/${req.params.id}`);
-    }
-  }
+    res.redirect(`${redirectPath}/${req.params.id}`);
+  };
+}
 
-  function editAccess(req, res, next) {
-    if (req.session.editaccess === req.params.id) {
-      next();
-    } else {
-      res.redirect(`/hisaab/edit/${req.params.id}`);
-    }
-  }  
-  
-  module.exports.editAccess = editAccess;
-  module.exports.hisaabAccess = hisaabAccess;
-  module.exports.deleteAccess = deleteAccess;  
+module.exports = {
+  hisaabAccess: accessControl("hisaabaccess", "/hisaab/view"),
+  deleteAccess: accessControl("deleteaccess", "/hisaab/delete"),
+  editAccess: accessControl("editaccess", "/hisaab/edit"),
+};
