@@ -9,7 +9,7 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "config": "^3.3.12",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
-    "eslint": "^9.5.0",
+    "eslint": "^9.39.4",
     "eslint-plugin-commonjs": "^1.0.2",
     "eslint-plugin-node": "^11.1.0",
     "globals": "^15.6.0"
